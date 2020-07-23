@@ -15,7 +15,20 @@ public class KinematicEquation {
 
     public KinematicEquation() {}
 
-    public static void main(string[] args) {
-
+    //constructor takes the knowns and values
+    public KinematicEquation(bool[] knowns, string[] values) {
+        this.knownQuantities = knowns;
+        this.quantities = values;
     }
+
+    //method for actually solving equation
+    public void DoAlgebra() {
+        //should never be called from a generic KinematicEquation object
+        //(overidden by subclasses)
+    }
+
+    //*** ACCESSORS ***\\
+
+    //accessor for work
+    public string GetWorkString() { return work.ToString(); }
 }
