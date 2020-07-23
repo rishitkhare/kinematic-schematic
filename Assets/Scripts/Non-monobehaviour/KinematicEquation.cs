@@ -21,6 +21,7 @@ public class KinematicEquation {
         this.quantities = values;
     }
 
+
     //method for actually solving equation
     public void DoAlgebra() {
         //should never be called from a generic KinematicEquation object
@@ -42,8 +43,8 @@ public class KinematicEquation {
         return quantities[quantityIndex];
     }
 
-    //accesses quantities but as double
-    public double GetNumericalQuantity(int quantityIndex) {
+    //accesses quantities but as float
+    public float GetNumericalQuantity(int quantityIndex) {
         if (Algebra.IsNumber(quantities[quantityIndex])) {
             return float.Parse(quantities[quantityIndex]);
         }
