@@ -38,7 +38,7 @@ public class Steps {
     }
 
     //gets the answer but as a parsable float
-    public string GetNumericalAnswer() { return this.answer.ToString(); }
+    public float GetNumericalAnswer() { return this.answer; }
 
     public void SetAnswer(float answer) { this.answer = answer; }
 }

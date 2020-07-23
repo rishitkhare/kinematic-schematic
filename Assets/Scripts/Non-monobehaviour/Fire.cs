@@ -5,22 +5,22 @@ public class Fire : KinematicEquation {
    public static readonly bool[] presentQuantities = {true, true, false, true, true};
 
    public Fire(bool [] knownQuantities, string[] quantities) {
-	super.absentQuantityIndex = 2;
-	setKnownQuantities(knownQuantities);
-	setQuantities(quantities);
+		absentQuantityIndex = 2;
+		SetKnownQuantities(knownQuantities);
+		SetQuantities(quantities);
 
-	setLeftSide(new BinaryExpression(new UnaryExpression(getQuantity(1)), new UnaryExpression("2"), '^'));
-	setRightSide(new BinaryExpression(new BinaryExpression(new UnaryExpression(getQuantity(0)), new UnaryExpression("2"), '^'), new BinaryExpression(new UnaryExpression(getQuantity(3)), new BinaryExpression(new UnaryExpression(getQuantity(4)), new UnaryExpression("2"), '*'), '*'), '+'));
+		SetLeftSide(new BinaryExpression(new UnaryExpression(GetQuantity(1)), new UnaryExpression("2"), '^'));
+		SetRightSide(new BinaryExpression(new BinaryExpression(new UnaryExpression(GetQuantity(0)), new UnaryExpression("2"), '^'), new BinaryExpression(new UnaryExpression(GetQuantity(3)), new BinaryExpression(new UnaryExpression(GetQuantity(4)), new UnaryExpression("2"), '*'), '*'), '+'));
 
-	checkNumberOfQuantities(numberOfKnownQuantities());
-    }
+		CheckNumberOfQuantities(NumberOfKnownQuantities());
+   }
 
    override
-   public void doAlgebra() {
+   public void DoAlgebra() {
 
-	setWork(new Steps(equation));
-	Algebra.solveEquation(false, this.work, leftSide, rightSide, getMissingQuantityIndex());
+		SetWork(new Steps(equation));
+		Algebra.solveEquation(false, this.work, leftSide, rightSide, GetMissingQuantityIndex());
 
-	setQuantity(getMissingQuantityIndex(), Double.toString(this.work.getNumericalAnswer())); //adds answer to array and updates knowns
+		SetQuantity(GetMissingQuantityIndex(), this.work.GetNumericalAnswer().ToString()); //adds answer to array and updates knowns
     }
 }

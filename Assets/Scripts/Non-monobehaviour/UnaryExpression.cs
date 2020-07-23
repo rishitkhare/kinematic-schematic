@@ -15,7 +15,7 @@
     }
 
     override
-    public double Evaluate() {
+    public float Evaluate() {
         // Only runs when isKnown
         return float.Parse(value);
     }

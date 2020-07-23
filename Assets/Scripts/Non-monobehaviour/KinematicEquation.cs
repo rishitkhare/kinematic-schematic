@@ -23,7 +23,7 @@ public class KinematicEquation {
 
 
     //method for actually solving equation
-    public void DoAlgebra() {
+    public virtual void DoAlgebra() {
         //should never be called from a generic KinematicEquation object
         //(overidden by subclasses)
     }

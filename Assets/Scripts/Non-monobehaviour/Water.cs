@@ -4,24 +4,26 @@
    public static readonly bool[] presentQuantities = {true, true, true, false, true};
 
    public Water(bool[] knownQuantities, string[] quantities) {
-    absentQuantityIndex = 3;
-    SetKnownQuantities(knownQuantities);
-    SetQuantities(quantities);
+        absentQuantityIndex = 3;
+        SetKnownQuantities(knownQuantities);
+        SetQuantities(quantities);
 
-    SetLeftSide(new UnaryExpression(GetQuantity(4)));
-    SetRightSide(new BinaryExpression(new BinaryExpression(new BinaryExpression(new UnaryExpression(GetQuantity(1)), new UnaryExpression(GetQuantity(0)), '+'), new UnaryExpression("0.5"), '*'), new UnaryExpression(GetQuantity(2)), '*'));
+        SetLeftSide(new UnaryExpression(GetQuantity(4)));
+        SetRightSide(new BinaryExpression(new BinaryExpression(new BinaryExpression(new UnaryExpression(GetQuantity(1)), new UnaryExpression(GetQuantity(0)), '+'), new UnaryExpression("0.5"), '*'), new UnaryExpression(GetQuantity(2)), '*'));
 
-    CheckNumberOfQuantities(NumberOfKnownQuantities());
-    }
+        CheckNumberOfQuantities(NumberOfKnownQuantities());
+   }
 
-override
-   public void doAlgebra() {
-    SetWork(new Steps(equation));
-    if (IsTimeKnown()) {
-        Algebra.solveEquation(false, this.work, leftSide, rightSide, GetMissingQuantityIndex());
+   override
+   public void DoAlgebra() {
+        SetWork(new Steps(equation));
+        if (IsTimeKnown()) {
+            Algebra.solveEquation(false, this.work, leftSide, rightSide, GetMissingQuantityIndex());
         } else {
-        Algebra.solveEquation(true, this.work, leftSide, rightSide, GetMissingQuantityIndex());
+            Algebra.solveEquation(true, this.work, leftSide, rightSide, GetMissingQuantityIndex());
         }
-    SetQuantity(GetMissingQuantityIndex(), float.ToString(this.work.GetNumericalAnswer())); //adds answer to array and updates knowns
-    }
+
+        SetQuantity(GetMissingQuantityIndex(), this.work.GetNumericalAnswer().ToString()); //adds answer to array and updates knowns
+
+   }
 }
