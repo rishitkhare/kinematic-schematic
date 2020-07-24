@@ -10,8 +10,8 @@ public class SolverAlgorithm : MonoBehaviour
     }
 
     void RunTestCases() {
-        string[] quantities = { "25 yd/s", "88 m/s", "Δt", "a", "54 m" };
-        Debug.Log(KinematicSolver.SolveGeneral(quantities));
-        Debug.Log(KinematicSolver.SolveGeneral(quantities));
+        string[] quantities = { "2", "4", "Δt", "1", "ΔX" };
+        Debug.Log(KinematicSolver.SolveEarth(quantities));
+        //Debug.Log(KinematicSolver.SolveGeneral(quantities));
     }
 }

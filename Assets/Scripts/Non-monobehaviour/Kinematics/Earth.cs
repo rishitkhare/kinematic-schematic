@@ -1,4 +1,6 @@
-﻿public class Earth : KinematicEquation {
+﻿using UnityEngine;
+
+public class Earth : KinematicEquation {
 
    public static readonly string equation = "Vf = Vi + aΔt";
    public static readonly bool[] presentQuantities = {true, true, true, true, false};
@@ -11,6 +13,7 @@
        SetLeftSide(new UnaryExpression(GetQuantity(1)));
        SetRightSide(new BinaryExpression(new UnaryExpression(GetQuantity(0)),
                      new BinaryExpression(new UnaryExpression(GetQuantity(3)), new UnaryExpression(GetQuantity(2)), '*'), '+'));
+
 
        CheckNumberOfQuantities(NumberOfKnownQuantities());
    }

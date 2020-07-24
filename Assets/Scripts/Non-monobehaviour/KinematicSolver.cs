@@ -1,4 +1,6 @@
-﻿public class KinematicSolver {
+﻿using UnityEngine;
+
+public class KinematicSolver {
 
     // when passing a string[] of quantities to any of the solve methods, the unknowns should match this list
     public static readonly string[] emptyVariableSet = {"Vi", "Vf", "Δt", "a", "ΔX"};
