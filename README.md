@@ -12,16 +12,16 @@ When under the "solve" window, select an equation from the dropdown menu, and fi
 Valid Displacement Units:
 inches - in
 feet - ft
-	yards - yd
-	football fields - ftbl
-	fathoms - fm
-	cable length - cbl
-	furlongs - fur
-	miles - mi
-	nautical miles - nmi
-	nanometers - nm
-	millimeters - mm
-	centimeters - cm
+yards - yd
+football fields - ftbl
+fathoms - fm
+cable length - cbl
+furlongs - fur
+miles - mi
+nautical miles - nmi
+nanometers - nm
+millimeters - mm
+centimeters - cm
 	meters - m
 	kilometers - km
 	astronomical units - au
