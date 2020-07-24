@@ -10,8 +10,8 @@ When under the "solve" window, select an equation from the dropdown menu, and fi
 
 # Valid Units:
 Valid Displacement Units:
-	inches - in
-	feet - ft
+inches - in
+feet - ft
 	yards - yd
 	football fields - ftbl
 	fathoms - fm
