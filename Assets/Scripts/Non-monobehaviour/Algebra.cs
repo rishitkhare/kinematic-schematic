@@ -10,8 +10,14 @@ public class Algebra {
    //prevents instantiation
    private Algebra() { }
 
-    public static bool isEqualEquation(Expression leftSide, Expression rightSide) {
-        return leftSide.Evaluate() == rightSide.Evaluate();
+    public static bool IsEqualEquation(Expression leftSide, Expression rightSide) {
+        
+
+        return Mathf.Abs(leftSide.Evaluate() - rightSide.Evaluate()) / leftSide.Evaluate() < 0.1;
+    }
+
+    public static bool IsEqualFloat(float leftSide, float rightSide) {
+        return Mathf.Abs(leftSide - rightSide) / leftSide < 0.1;
     }
 
     // checks if a String can be parsed as Double

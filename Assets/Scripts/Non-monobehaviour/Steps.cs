@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine;
 
 public class Steps {
     private ArrayList shownWork;
@@ -18,7 +19,8 @@ public class Steps {
 
     // Replaces the last value with the given parameter
     public void ReplaceLastValue(string value) {
-        shownWork.Insert(shownWork.Count - 1, value);
+        shownWork.RemoveAt(shownWork.Count - 1);
+        shownWork.Add(value);
     }
 
     //toString for printing

@@ -10,43 +10,43 @@ public class KinematicSolver {
 
 
     // solves an equation with 3 or more unknowns
-    public static string SolveGeneral(string[] quantities) {
+    public static Steps SolveGeneral(string[] quantities) {
 
         ConvertUnitsInArray(quantities);
 
         bool[] knowns = ConstructKnowns(quantities);
         if (know3SharedValues(knowns, Earth.presentQuantities)) {
-            string answer = SolveEarth(quantities);
-            quantities[GetUnkownSharedIndex(knowns, Earth.presentQuantities)] = answer.Substring(answer.IndexOf("=") + 2);
+            Steps answer = SolveEarth(quantities);
+            quantities[GetUnkownSharedIndex(knowns, Earth.presentQuantities)] = answer.GetNumericalAnswer().ToString();
             return answer;
         }
         else if (know3SharedValues(knowns, Water.presentQuantities)) {
-            string answer = SolveWater(quantities);
-            quantities[GetUnkownSharedIndex(knowns, Water.presentQuantities)] = answer.Substring(answer.IndexOf("=") + 2);
+            Steps answer = SolveWater(quantities); //full work
+            quantities[GetUnkownSharedIndex(knowns, Water.presentQuantities)] = answer.GetNumericalAnswer().ToString(); ;
             return answer;
         }
         else if (know3SharedValues(knowns, Fire.presentQuantities)) {
-            string answer = SolveFire(quantities);
-            quantities[GetUnkownSharedIndex(knowns, Fire.presentQuantities)] = answer.Substring(answer.IndexOf("=") + 2);
+            Steps answer = SolveFire(quantities);
+            quantities[GetUnkownSharedIndex(knowns, Fire.presentQuantities)] = answer.GetNumericalAnswer().ToString(); ;
             return answer;
         }
         else if (know3SharedValues(knowns, Air.presentQuantities)) {
-            string answer = SolveAir(quantities);
-            quantities[GetUnkownSharedIndex(knowns, Air.presentQuantities)] = answer.Substring(answer.IndexOf("=") + 2);
+            Steps answer = SolveAir(quantities);
+            quantities[GetUnkownSharedIndex(knowns, Air.presentQuantities)] = answer.GetNumericalAnswer().ToString(); ;
             return answer;
         }
         else if (know3SharedValues(knowns, Shadow.presentQuantities)) {
-            string answer = SolveShadow(quantities);
-            quantities[GetUnkownSharedIndex(knowns, Shadow.presentQuantities)] = answer.Substring(answer.IndexOf("=") + 2);
+            Steps answer = SolveShadow(quantities);
+            quantities[GetUnkownSharedIndex(knowns, Shadow.presentQuantities)] = answer.GetNumericalAnswer().ToString(); ;
             return answer;
         }
         else {
-            throw new System.ArgumentException("ERROR: HOW DID WE GET HERE.");
+            throw new System.ArgumentException("ERROR: not enough info");
         }  
     }
 
     // solves an equation using earth with correct unknowns
-    public static string SolveEarth(string[] quantities) {
+    public static Steps SolveEarth(string[] quantities) {
 
         ConvertUnitsInArray(quantities);
 
@@ -60,11 +60,11 @@ public class KinematicSolver {
         Earth solution = new Earth(knowns, quantities);
         solution.DoAlgebra();
 
-        return solution.GetAnswer();
+        return solution.GetWork();
     }
 
     // solves an equation using water with correct unknowns
-    public static string SolveWater(string[] quantities) {
+    public static Steps SolveWater(string[] quantities) {
 
         ConvertUnitsInArray(quantities);
 
@@ -78,12 +78,12 @@ public class KinematicSolver {
         Water solution = new Water(knowns, quantities);
         solution.DoAlgebra();
 
-        return solution.GetAnswer();
+        return solution.GetWork();
 
     }
 
     // solves an equation using fire with correct unknowns
-    public static string SolveFire(string[] quantities) {
+    public static Steps SolveFire(string[] quantities) {
 
         ConvertUnitsInArray(quantities);
 
@@ -97,12 +97,12 @@ public class KinematicSolver {
         Fire solution = new Fire(knowns, quantities);
         solution.DoAlgebra();
 
-        return solution.GetAnswer();
+        return solution.GetWork();
 
     }
 
     // solves an equation using shadow with correct unknowns
-    public static string SolveShadow(string[] quantities) {
+    public static Steps SolveShadow(string[] quantities) {
 
         ConvertUnitsInArray(quantities);
 
@@ -116,12 +116,12 @@ public class KinematicSolver {
         Shadow solution = new Shadow(knowns, quantities);
         solution.DoAlgebra();
 
-        return solution.GetAnswer();
+        return solution.GetWork();
 
     }
 
     // solves an equation using air with correct unknowns
-    public static string SolveAir(string[] quantities) {
+    public static Steps SolveAir(string[] quantities) {
 
         ConvertUnitsInArray(quantities);
 
@@ -135,8 +135,43 @@ public class KinematicSolver {
         Air solution = new Air(knowns, quantities);
         solution.DoAlgebra();
 
-        return solution.GetAnswer();
+        return solution.GetWork();
 
+    }
+
+    public static bool CheckValidity(string[] quantities) {
+
+        float[] numberQuantities = new float[5];
+
+        for(int i = 0; i < 5; i ++) {
+            numberQuantities[i] = float.Parse(quantities[i]);
+        }
+
+        int missingIndex = GetMissingIndex(quantities);
+
+        if(missingIndex == 0) {
+            //Shadow
+            return Algebra.IsEqualFloat(numberQuantities[4], numberQuantities[1] - (0.5f * numberQuantities[3] * Mathf.Pow(numberQuantities[2], 2)));
+        }
+        else if(missingIndex == 1) {
+            //Air
+            return Algebra.IsEqualFloat(numberQuantities[4], numberQuantities[0] + (0.5f * numberQuantities[3] * Mathf.Pow(numberQuantities[2], 2)));
+        }
+        else if(missingIndex == 2) {
+            //Fire
+            return Algebra.IsEqualFloat(Mathf.Pow(numberQuantities[1], 2), Mathf.Pow(numberQuantities[0], 2) + (2f * numberQuantities[3] * numberQuantities[4]));
+        }
+        else if(missingIndex == 3) {
+            //Water
+            return Algebra.IsEqualFloat(numberQuantities[4], 0.5f * numberQuantities[2] * (numberQuantities[0] + numberQuantities[1]));
+        }
+        else if(missingIndex == 4) {
+            //Earth
+            return Algebra.IsEqualFloat(numberQuantities[1], numberQuantities[0] + (0.5f * numberQuantities[3] * numberQuantities[2]));
+        }
+        else {
+            throw new System.ArgumentException();
+        }
     }
 
     //** PRIVATE METHODS **\\
@@ -186,5 +221,19 @@ public class KinematicSolver {
                 }
             }
         }
+    }
+
+    private static int GetMissingIndex(string[] quantities) {
+        foreach(string a in quantities) {
+            Debug.Log(a);
+        }
+
+        for(int i = 0; i  < 5; i ++) {
+            if(quantities[i].Equals(emptyVariableSet[i])) {
+                return i;
+            }
+        }
+
+        throw new System.ArgumentException();
     }
 }

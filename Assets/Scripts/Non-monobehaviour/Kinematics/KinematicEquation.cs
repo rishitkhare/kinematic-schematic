@@ -144,7 +144,7 @@ public class KinematicEquation {
     public void CheckNumberOfQuantities(int quantities) {
         if (NumberOfKnownQuantities() == 4) {
             // if all four quantities of equation are known, then throw error (error may differ based on correctness of values given)
-            if (Algebra.isEqualEquation(leftSide, rightSide)) {
+            if (Algebra.IsEqualEquation(leftSide, rightSide)) {
                 throw new System.ArgumentException("ERROR: Equation length - All quantities are known");
             }
             else {
