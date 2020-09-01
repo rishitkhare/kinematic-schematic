@@ -12,9 +12,24 @@ public class Steps {
         };
     }
 
+    public void AppendMoreSteps(Steps steps) {
+        for(int i = 0; i < steps.GetSize(); i ++) {
+            this.shownWork.Add(steps.GetStep(i));
+        }
+    }
+
     //add a step to the end of the list
     public void AddStep(string newStep) {
         shownWork.Add(newStep);
+    }
+
+    public string GetStep(int index) {
+
+        return (string) shownWork[index];
+    }
+
+    public int GetSize() {
+        return shownWork.Count;
     }
 
     // Replaces the last value with the given parameter
