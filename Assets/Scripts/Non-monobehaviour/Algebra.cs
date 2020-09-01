@@ -143,8 +143,8 @@ public class Algebra {
 
     
     public static Steps[] ShadowSpecialCase(string[] quantities) {
-        Steps column1;
-        Steps column2;
+        Steps column1 = new Steps("Vf^2 = Vi^2 + 2aΔX");
+        Steps column2 = new Steps("Vf^2 = Vi^2 + 2aΔX");
 
        // Debug.Log(string.Format("{0}, {1}, {2}, {3}, {4}", quantities[0], quantities[1], quantities[2], quantities[3], quantities[4]));
 
@@ -154,12 +154,18 @@ public class Algebra {
         Fire zuko = new Fire(knowns, quantities);
         zuko.DoAlgebra();
         //should've solved for Vi
-        column1 = zuko.GetWork();
+        column1.AppendMoreSteps(zuko.GetWork());
 
-        //COLUMN 2
-        string[] newQuantities = { "-" + quantities[0], quantities[1], "Δt", quantities[3], quantities[4] };
-        bool[] newKnowns = { true, true, false, true, true };
-        column2 = zuko.GetWork();
+        //adds '-' to 'zuko's work
+        column2.AppendMoreSteps(zuko.GetWork());
+
+
+        string lastStep = column2.GetLastStep();
+        string newLastValue = lastStep.Substring(0, lastStep.IndexOf("=")) + "= -" + lastStep.Substring(lastStep.IndexOf("=") + 2);
+        newLastValue.Insert(newLastValue.IndexOf("=") + 1, "-");
+
+        Debug.Log(newLastValue);
+        column2.ReplaceLastValue(newLastValue);
 
         //Debug.Log(string.Format("{0}, {1}, {2}, {3}, {4}", quantities[0], quantities[1], quantities[2], quantities[3], quantities[4]));
 
@@ -169,11 +175,10 @@ public class Algebra {
 
         //Debug.Log(string.Format("{0}, {1}, {2}, {3}, {4}", quantities[0], quantities[1], quantities[2], quantities[3], quantities[4]));
 
-        //adds '-' to 'zuko's work
-        string newLastValue = zuko.GetWork().GetLastStep();
-        newLastValue.Insert(newLastValue.IndexOf("=") + 1, "-");
-        zuko.GetWork().ReplaceLastValue(newLastValue);
 
+        //COLUMN 2
+        string[] newQuantities = { "-" + quantities[0], quantities[1], "Δt", quantities[3], quantities[4] };
+        bool[] newKnowns = { true, true, false, true, true };
 
         Water korra = new Water(newKnowns, newQuantities);
         korra.DoAlgebra();
