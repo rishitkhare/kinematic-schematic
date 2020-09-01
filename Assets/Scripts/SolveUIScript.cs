@@ -206,13 +206,24 @@ public class SolveUIScript : MonoBehaviour
                     }
                 }
 
+                if (Mathf.Sign(float.Parse(quantities[1])) == Mathf.Sign(float.Parse(quantities[3])) && Mathf.Sign(float.Parse(quantities[3])) == Mathf.Sign(float.Parse(quantities[4]))) {
+                    //Shadow special case
 
-                //Display answer
-                finalAnswer = KinematicSolver.SolveGeneral(quantities);
+                    Steps[] answers = Algebra.ShadowSpecialCase(quantities);
 
-                if (HasAnyUnknowns(quantities)) {
                     displayTwoAnswers = true;
-                    finalAnswer2 = KinematicSolver.SolveGeneral(quantities);
+                    finalAnswer = answers[0];
+                    finalAnswer2 = answers[1];
+                }
+                else {
+
+                    //Display answer
+                    finalAnswer = KinematicSolver.SolveGeneral(quantities);
+
+                    if (HasAnyUnknowns(quantities)) {
+                        displayTwoAnswers = true;
+                        finalAnswer2 = KinematicSolver.SolveGeneral(quantities);
+                    }
                 }
 
             }

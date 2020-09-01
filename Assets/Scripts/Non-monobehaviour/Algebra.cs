@@ -140,4 +140,45 @@ public class Algebra {
             throw new System.ArgumentException("ERROR: Both values for possible time are negative");
         }
     }
+
+    
+    public static Steps[] ShadowSpecialCase(string[] quantities) {
+        Steps column1;
+        Steps column2;
+
+       // Debug.Log(string.Format("{0}, {1}, {2}, {3}, {4}", quantities[0], quantities[1], quantities[2], quantities[3], quantities[4]));
+
+        bool[] knowns = { false, true, false, true, true }; //KILL ME
+
+        //COLUMN 1
+        Fire zuko = new Fire(knowns, quantities);
+        zuko.DoAlgebra();
+        //should've solved for Vi
+        column1 = zuko.GetWork();
+
+        //COLUMN 2
+        string[] newQuantities = { "-" + quantities[0], quantities[1], "Δt", quantities[3], quantities[4] };
+        bool[] newKnowns = { true, true, false, true, true };
+        column2 = zuko.GetWork();
+
+        //Debug.Log(string.Format("{0}, {1}, {2}, {3}, {4}", quantities[0], quantities[1], quantities[2], quantities[3], quantities[4]));
+
+        Water katara = new Water(knowns, quantities);
+        katara.DoAlgebra();
+        column1.AppendMoreSteps(katara.GetWork());
+
+        //Debug.Log(string.Format("{0}, {1}, {2}, {3}, {4}", quantities[0], quantities[1], quantities[2], quantities[3], quantities[4]));
+
+        //adds '-' to 'zuko's work
+        string newLastValue = zuko.GetWork().GetLastStep();
+        newLastValue.Insert(newLastValue.IndexOf("=") + 1, "-");
+        zuko.GetWork().ReplaceLastValue(newLastValue);
+
+
+        Water korra = new Water(newKnowns, newQuantities);
+        korra.DoAlgebra();
+        column2.AppendMoreSteps(korra.GetWork());
+
+        return new Steps[] { column1, column2 };
+    }
 }
